@@ -19,3 +19,9 @@
 ## Entity Framework Core (EF Core)
 *   **General Concepts:** What is Entity Framework Core?
 *   **Relationships:** How do you configure a Many-to-Many relationship in EF Core?
+*   **Tracking:** What is `AsNoTracking()` in Entity Framework and when should you use it?
+    *   *Answer:* It tells EF Core not to track the returned entities in its Change Tracker. It improves performance and reduces memory usage for read-only queries because EF doesn't need to set up tracking information.
+*   **LINQ Translation:** How does Entity Framework translate LINQ into SQL?
+    *   *Answer:* EF Core uses a Query Provider that takes an Expression Tree (built from `IQueryable` LINQ methods), parses it, and translates it into a SQL syntax tree specific to the database provider (e.g., SQL Server, PostgreSQL). Then it executes the SQL and maps the resulting data reader back conceptually to C# objects.
+*   **Joins in EF Core:** What type of SQL JOIN is generated when navigating relationships in EF Core?
+    *   *Answer:* If the relationship is required (e.g., a non-nullable foreign key), EF Core generates an `INNER JOIN`. If the relationship is optional (e.g., a nullable foreign key), EF Core generates a `LEFT JOIN`. Using `.Include()` also typically generates `LEFT JOIN`s unless EF can prove the relationship is required.

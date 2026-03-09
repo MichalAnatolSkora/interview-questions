@@ -12,6 +12,8 @@
 *   **Value vs Reference type:** What is the difference between a value type and a reference type? Give examples. In what cases should we use a value type?
     *   *Answer:* Value types hold data directly (e.g., `int`, `bool`, `structs`) and are usually allocated on the stack. Reference types hold a memory address (reference) to the data (e.g., `class`, `string`, `arrays`) allocated on the heap. Use value types for small, immutable, simple data structures.
     *   *Note:* Value types have fixed memory allocations.
+*   **Collections - Dictionary vs ConcurrentDictionary:** What are the two most essential interfaces in collections? When would you use `ConcurrentDictionary` instead of a standard `Dictionary`?
+    *   *Answer:* Two essential interfaces are `IEnumerable<T>` (for iterating) and `ICollection<T>` (for adding/removing/counting). `ConcurrentDictionary` is used when multiple threads might add or update items simultaneously. If a collection is only read after being initialized or if performance is critical in a single-threaded/locked scenario, a standard `Dictionary` is frequently faster due to less overhead.
 *   **Nullable types:** What is the `Nullable` type? What types can be used with it?
     *   *Answer:* A generic structure `Nullable<T>` (or `T?`) that allows value types (which normally cannot be null) to represent an undefined or null state.
 *   **Const vs Readonly:** What is the difference between `const` and `readonly`?
@@ -31,8 +33,8 @@
     *   How do you restrict the types passed in (generic constraints)? *Answer:* Using the `where` keyword (e.g., `where T : class`, `where T : new()`).
 *   **Methods:** How would you return multiple values from a method?
     *   *Answer:* Using Tuples (`(int a, string b)`), `out` parameters, passing a reference type, or returning a custom object/record.
-*   **IDisposable:** What is an `IDisposable` interface and when should you use it?
-    *   *Answer:* Used to provide a mechanism for deterministic release of unmanaged resources (like file handles or database connections) through the `Dispose()` method, often combined with the `using` statement.
+*   **IDisposable:** What is an `IDisposable` interface and when should you use it? What things do we release in the `Dispose` method?
+    *   *Answer:* Used to provide a mechanism for deterministic release of resources through the `Dispose()` method, often combined with the `using` statement. In `Dispose`, you should release **unmanaged resources** (like file handles, database connections, network streams) and call `Dispose()` on any **managed objects** that implement `IDisposable` which your class owns.
     *   *Note:* It is mainly used to dispose of unmanaged resources.
 
 ## Delegates, Events, and Closures
@@ -111,7 +113,9 @@
     *   *Answer:* `IEnumerable<T>` defines in-memory sequence operations (executed locally). `IQueryable<T>` derives from `IEnumerable` and is intended for out-of-memory queries (like databases). It builds expression trees that providers (like EF Core) translate into domain-specific queries (like SQL) for server-side execution.
 
 ## Memory Management
-*   How does the garbage collector (GC) work in .NET?
-    *   *Answer:* It automatically manages memory on the managed heap. It uses a generational algorithm (Gen 0, Gen 1, Gen 2) to identify objects that are no longer reachable from application roots and frees their memory during garbage collection cycles.
-*   What is a memory leak? How can it occur in a managed environment?
-    *   *Answer:* When objects are no longer needed but cannot be reclaimed by the GC because they are still referenced by reachable objects. Common causes: un-unsubscribed events, static collections growing infinitely, or not disposing unmanaged resources.
+*   **Garbage Collector:** How does the garbage collector (GC) work in .NET? How does it know what needs to be cleaned up?
+    *   *Answer:* It maintains memory on the managed heap. It starts by assuming all objects are garbage. Then, it traces all object references starting from **GC Roots** (static fields, local variables on thread stacks, CPU registers, objects on the finalize queue). Any object reachable from a GC root is considered live. Objects not reached are considered garbage and their memory is freed. It uses a generational algorithm (Gen 0, Gen 1, Gen 2) for optimization.
+*   **GC Roots:** What are GC roots?
+    *   *Answer:* They are the starting points for the Garbage Collector's working graph. Examples include local variables, static variables, and references on the thread stack.
+*   **Memory Leaks:** What is a memory leak? How can it occur in a managed environment?
+    *   *Answer:* When objects are no longer needed but cannot be reclaimed by the GC because they are still referenced by reachable objects (often inadvertently kept alive by GC roots). Common causes: un-unsubscribed events, static collections growing infinitely, or not disposing unmanaged resources.
