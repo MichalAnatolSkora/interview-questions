@@ -90,7 +90,8 @@
 *   **CancellationToken:** When and how should you use a `CancellationToken`?
     *   *Answer:* Used to signal that a task or operation should be canceled. Passed from a `CancellationTokenSource` down to asynchronous methods.
 *   **Async/Await:** Explain how `async`/`await` works under the hood.
-    *   *Answer:* The compiler transforms the `async` method into a state machine. `await` registers a continuation on the awaited task and yields control back to the caller until the task completes.
+    *   *Answer:* The compiler transforms the `async` method into a **State Machine** (usually a struct in modern .NET). `await` registers a continuation on the awaited task and yields control back to the caller until the background task completes, at which point the state machine resumes execution from where it left off.
+    *   *Note:* In the newest and upcoming .NET versions (e.g., experiments around "Async2" / green threads / native coroutines), there is a push to handle async at the runtime level rather than generating a compiler-level state machine class/struct for every method. This relies on suspending the actual execution stack to significantly reduce memory allocations and overhead.
 *   **Foreground vs Background:** What is the difference between foreground and background threads?
     *   *Answer:* A foreground thread keeps the application alive. A background thread will be terminated automatically when all foreground threads finish.
 *   **Task.Run:** How does `Task.Run` work? Does it create new threads? Is the executed thread a background or foreground thread?
