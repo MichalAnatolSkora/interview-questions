@@ -20,6 +20,7 @@ The questions are organized by topic into separate Markdown files within the `qu
 
 Additionally, you can find a curated list of interesting links here:
 *   [Resources and Links](resources_and_links.md)
+*   [External Projects](projects.md)
 
 ## Contributing / AI Assistance Guidelines
 
