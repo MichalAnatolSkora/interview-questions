@@ -26,7 +26,7 @@
 *   **Loops:** Explain `break`, `continue`, and `yield`.
     *   *Answer:* `break`: exits the innermost loop. `continue`: skips the rest of the current iteration and jumps to the next one. `yield` (with `return` or `break`): used in an iterator block to provide the next value or signal the end of iteration.
 *   **Records:** What is a record? Are records immutable?
-    *   *Answer:* A reference type that provides built-in functionality for encapsulating data with value-based equality. Yes, primarily designed to be immutable (though mutable properties can be created).
+    *   *Answer:* A type that provides built-in functionality for encapsulating data with value-based equality. Originally introduced as reference types (`record class`), C# 10 added `record struct`. They are primarily designed to be immutable (modified via non-destructive mutation using the `with` expression), though mutable properties can be created.
 *   **Generics:**
     *   What are generics? *Answer:* Classes/methods decoupled from data types, allowing code reuse with type safety.
     *   Name some standard generics in .NET. *Answer:* `List<T>`, `Dictionary<TKey, TValue>`, `IEnumerable<T>`.
@@ -36,6 +36,8 @@
 *   **IDisposable:** What is an `IDisposable` interface and when should you use it? What things do we release in the `Dispose` method?
     *   *Answer:* Used to provide a mechanism for deterministic release of resources through the `Dispose()` method, often combined with the `using` statement. In `Dispose`, you should release **unmanaged resources** (like file handles, database connections, network streams) and call `Dispose()` on any **managed objects** that implement `IDisposable` which your class owns.
     *   *Note:* It is mainly used to dispose of unmanaged resources.
+*   **Modern C# Features:** Provide examples of modern C# features (C# 9 to C# 12).
+    *   *Answer:* **Primary Constructors:** (C# 12) allow declaring constructor parameters directly on the class/struct name, reducing boilerplate especially for Dependency Injection. **Pattern Matching:** Extensive enhancements (switch expressions, property patterns, list/slice patterns) for safe and concise data evaluations. **Top-level statements** and **Implicit/Global Usings** to reduce boilerplate.
 
 ## Delegates, Events, and Closures
 *   **Delegates:** What is a delegate?
@@ -64,7 +66,7 @@
 *   **Keywords:** What keywords can be used in C# in terms of inheritance?
     *   *Answer:* `virtual`, `override`, `abstract`, `base`, `sealed`, `new` (hiding).
 *   **Abstract class vs Interface:** What are the differences between an abstract class and an interface?
-    *   *Answer:* An abstract class can have implementations, fields, and constructors. An interface (pre-C# 8) has only method signatures without implementation. A class can inherit only one abstract class but multiple interfaces.
+    *   *Answer:* An abstract class can have implementations, state (fields), and constructors. Historically, interfaces only had method signatures, but since C# 8, interfaces can have **Default Interface Methods** (implementation logic within the interface). A class can inherit only one abstract class but implement multiple interfaces.
 *   **Explicit Interface:** What is explicit interface method implementation?
     *   *Answer:* Implementing an interface method by prefixing the method name with the interface name. It's used to resolve naming collisions and hides the method from the class's public API (it can only be called when the object is cast to the interface).
 *   **Override vs New:** What is the difference between `override` and `new`?
@@ -120,3 +122,5 @@
     *   *Answer:* They are the starting points for the Garbage Collector's working graph. Examples include local variables, static variables, and references on the thread stack.
 *   **Memory Leaks:** What is a memory leak? How can it occur in a managed environment?
     *   *Answer:* When objects are no longer needed but cannot be reclaimed by the GC because they are still referenced by reachable objects (often inadvertently kept alive by GC roots). Common causes: un-unsubscribed events, static collections growing infinitely, or not disposing unmanaged resources.
+*   **Modern Memory/Performance:** What are `Span<T>` and `Memory<T>`?
+    *   *Answer:* They are modern C# types (introduced around C# 7.2) that provide a type-safe, allocation-free allocation view over a contiguous region of memory (like arrays, stackalloc memory, or unmanaged pointers). They are extensively used in high-performance .NET APIs to avoid creating sub-arrays and triggering the Garbage Collector. `Span<T>` is a `ref struct` (must live on the stack), whereas `Memory<T>` can be placed on the heap.
